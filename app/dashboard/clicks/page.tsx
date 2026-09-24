@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db";
 import { AppNav } from "@/components/ui/app-nav";
 import { Card } from "@/components/ui/card";
 import { formatDateTime } from "@/lib/utils/format";
+import { getDeviceAndBrowser } from "@/lib/utils/user-agent";
 
 export const metadata: Metadata = {
   title: "Referral Clicks",
@@ -105,7 +106,7 @@ export default async function ReferralClicksPage({
                         </td>
 
                         <td className="text-muted px-4 py-3">
-                          {click.userAgent ?? "Unknown"}
+                          {getDeviceAndBrowser(click.userAgent)}
                         </td>
 
                         <td className="text-muted px-4 py-3">
