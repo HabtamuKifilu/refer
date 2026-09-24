@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { ReferralStatus, RewardStatus, ReferralEventType } from "@/lib/db";
 import { env } from "@/lib/env";
 import { log } from "@/lib/utils/logger";
+import { REJECTION_REASONS } from "@/lib/rewards/rejection-reasons";
 
 /**
  * Reward lifecycle. Two responsibilities:
@@ -125,7 +126,7 @@ export async function qualifyReferralForUser(
 }
 
 export type TransitionResult =
-  { ok: true } | { ok: false; reason: "not_found" | "invalid_transition" };
+  { ok: true } | { ok: false; reason: "not_found" | "invalid_transition" | "invalid_reason" };
 
 /** PENDING -> APPROVED. */
 export async function approveReward(
@@ -134,7 +135,7 @@ export async function approveReward(
   return prisma.$transaction(async (tx) => {
     const reward = await tx.reward.findUnique({
       where: { id: rewardId },
-      select: { id: true, status: true, referralId: true },
+      select: { id: true, status: true, referralId: true, amount: true, currency: true },
     });
     if (!reward) return { ok: false, reason: "not_found" } as const;
     if (reward.status !== RewardStatus.PENDING) {
@@ -159,13 +160,23 @@ export async function approveReward(
 /** PENDING or APPROVED -> REJECTED. Also marks the referral REJECTED. */
 export async function rejectReward(
   rewardId: string,
+  input: {
+    reasonCode: string;
+    note?: string;
+    adminId: string;
+    adminName: string;
+    adminEmail: string;
+  },
 ): Promise<TransitionResult> {
   return prisma.$transaction(async (tx) => {
     const reward = await tx.reward.findUnique({
       where: { id: rewardId },
-      select: { id: true, status: true, referralId: true },
+      select: { id: true, status: true, referralId: true, amount: true, currency: true },
     });
     if (!reward) return { ok: false, reason: "not_found" } as const;
+    if (!REJECTION_REASONS.some((reason) => reason.code === input.reasonCode)) {
+      return { ok: false, reason: "invalid_reason" } as const;
+    }
     if (
       reward.status !== RewardStatus.PENDING &&
       reward.status !== RewardStatus.APPROVED
@@ -184,7 +195,17 @@ export async function rejectReward(
       data: {
         referralId: reward.referralId,
         eventType: ReferralEventType.REWARD_REJECTED,
-        metadata: { rewardId },
+        metadata: {
+          rewardId,
+          reasonCode: input.reasonCode,
+          note: input.note ?? null,
+          rejectedById: input.adminId,
+          rejectedByName: input.adminName,
+          rejectedByEmail: input.adminEmail,
+          previousStatus: reward.status,
+          rewardAmount: reward.amount,
+          currency: reward.currency,
+        },
       },
     });
     log.info("reward_rejected", { rewardId });
@@ -197,7 +218,7 @@ export async function payReward(rewardId: string): Promise<TransitionResult> {
   return prisma.$transaction(async (tx) => {
     const reward = await tx.reward.findUnique({
       where: { id: rewardId },
-      select: { id: true, status: true, referralId: true },
+      select: { id: true, status: true, referralId: true, amount: true, currency: true },
     });
     if (!reward) return { ok: false, reason: "not_found" } as const;
     if (reward.status !== RewardStatus.APPROVED) {

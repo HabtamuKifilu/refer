@@ -47,3 +47,10 @@ export const profileSchema = z.object({
 });
 
 export type ProfileInput = z.infer<typeof profileSchema>;
+
+export const rejectRewardSchema = z.object({
+  reasonCode: z.string().trim().min(1, "Rejection reason is required"),
+  note: z.string().trim().max(500, "Note must be 500 characters or less").optional(),
+});
+
+export type RejectRewardInput = z.infer<typeof rejectRewardSchema>;

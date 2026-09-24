@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth/current-user";
+import { getAdminAnalytics } from "@/lib/admin/analytics";
+import { ReferralFunnelChart } from "@/components/admin/analytics/ReferralFunnelChart";
 import { getAdminStats } from "@/lib/referrals/stats";
 import { AppNav } from "@/components/ui/app-nav";
 import { Stat } from "@/components/ui/card";
@@ -10,7 +12,7 @@ export const metadata: Metadata = { title: "Admin" };
 
 export default async function AdminPage() {
   const user = await requireAdmin();
-  const stats = await getAdminStats();
+  const [stats, analytics] = await Promise.all([getAdminStats(), getAdminAnalytics()]);
 
   return (
     <>
@@ -84,6 +86,13 @@ export default async function AdminPage() {
                 value={formatCurrency(stats.totalRewardAmount)}
               />
             </Link>
+          </div>
+        </section>
+
+        <section className="mt-8">
+          <h2 className="text-muted text-sm font-semibold">Referral analytics</h2>
+          <div className="mt-3">
+            <ReferralFunnelChart data={analytics.funnel} />
           </div>
         </section>
       </main>

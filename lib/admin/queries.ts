@@ -1,10 +1,30 @@
+import { Prisma } from "@/lib/generated/prisma";
 import { prisma } from "@/lib/db";
 import { ReferralStatus, RewardStatus } from "@/lib/db";
 
 /** Admin read queries for the management pages. */
 
+type RejectionMetadata = {
+  reasonCode?: string;
+  note?: string | null;
+  rejectedById?: string;
+  rejectedByName?: string;
+  rejectedByEmail?: string;
+  previousStatus?: string;
+  rewardAmount?: number;
+  currency?: string;
+};
+
+function parseRejectionMetadata(metadata: Prisma.JsonValue | null): RejectionMetadata | null {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
+    return null;
+  }
+
+  return metadata as RejectionMetadata;
+}
+
 export async function getAllRewards(statusFilter?: RewardStatus) {
-  return prisma.reward.findMany({
+  const rewards = await prisma.reward.findMany({
     where: statusFilter ? { status: statusFilter } : undefined,
     orderBy: { createdAt: "desc" },
     select: {
@@ -16,9 +36,34 @@ export async function getAllRewards(statusFilter?: RewardStatus) {
       createdAt: true,
       user: { select: { name: true } },
       referral: {
-        select: { referredUser: { select: { name: true } } },
+        select: {
+          referredUser: { select: { name: true } },
+          events: {
+            where: { eventType: "REWARD_REJECTED" },
+            orderBy: { createdAt: "desc" },
+            take: 1,
+            select: {
+              createdAt: true,
+              metadata: true,
+            },
+          },
+        },
       },
     },
+  });
+
+  return rewards.map((reward) => {
+    const rejectionEvent = reward.referral.events[0];
+
+    return {
+      ...reward,
+      rejection: rejectionEvent
+        ? {
+            rejectedAt: rejectionEvent.createdAt,
+            ...parseRejectionMetadata(rejectionEvent.metadata),
+          }
+        : null,
+    };
   });
 }
 
