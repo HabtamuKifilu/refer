@@ -92,6 +92,7 @@ export type AdminStats = {
   pendingRewardsAmount: number;
   approvedRewardsAmount: number;
   paidRewardsAmount: number;
+  rejectedRewardsAmount: number;
   totalRewardAmount: number;
 };
 
@@ -118,6 +119,7 @@ export async function getAdminStats(): Promise<AdminStats> {
   const pendingRewardsAmount = byStatus(RewardStatus.PENDING);
   const approvedRewardsAmount = byStatus(RewardStatus.APPROVED);
   const paidRewardsAmount = byStatus(RewardStatus.PAID);
+  const rejectedRewardsAmount = byStatus(RewardStatus.REJECTED);
 
   return {
     totalUsers,
@@ -128,7 +130,8 @@ export async function getAdminStats(): Promise<AdminStats> {
     pendingRewardsAmount,
     approvedRewardsAmount,
     paidRewardsAmount,
+    rejectedRewardsAmount,
     totalRewardAmount:
-      pendingRewardsAmount + approvedRewardsAmount + paidRewardsAmount,
+      pendingRewardsAmount + approvedRewardsAmount + paidRewardsAmount + rejectedRewardsAmount,
   };
 }

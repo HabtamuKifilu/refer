@@ -33,33 +33,57 @@ export default async function AdminPage() {
         <section className="mt-6">
           <h2 className="text-muted text-sm font-semibold">Activity</h2>
           <div className="mt-3 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-            <Stat label="Users" value={stats.totalUsers} />
-            <Stat label="Referral clicks" value={stats.totalClicks} />
-            <Stat label="Referrals" value={stats.totalReferrals} />
-            <Stat label="Qualified" value={stats.qualifiedReferrals} />
-            <Stat label="Completed" value={stats.completedReferrals} />
+            <Link href="/admin/users" className="block">
+              <Stat label="Users" value={stats.totalUsers} />
+            </Link>
+            <Link href="/admin/clicks" className="block">
+              <Stat label="Referral clicks" value={stats.totalClicks} />
+            </Link>
+            <Link href="/admin/referrals" className="block">
+              <Stat label="Referrals" value={stats.totalReferrals} />
+            </Link>
+            <Link href="/admin/referrals?status=QUALIFIED" className="block">
+              <Stat label="Qualified" value={stats.qualifiedReferrals} />
+            </Link>
+            <Link href="/admin/referrals?status=COMPLETED" className="block">
+              <Stat label="Completed" value={stats.completedReferrals} />
+            </Link>
           </div>
         </section>
 
         <section className="mt-8">
           <h2 className="text-muted text-sm font-semibold">Rewards</h2>
-          <div className="mt-3 grid grid-cols-2 gap-4 md:grid-cols-4">
-            <Stat
-              label="Pending"
-              value={formatCurrency(stats.pendingRewardsAmount)}
-            />
-            <Stat
-              label="Approved"
-              value={formatCurrency(stats.approvedRewardsAmount)}
-            />
-            <Stat
-              label="Paid"
-              value={formatCurrency(stats.paidRewardsAmount)}
-            />
-            <Stat
-              label="Total"
-              value={formatCurrency(stats.totalRewardAmount)}
-            />
+          <div className="mt-3 grid grid-cols-2 gap-4 md:grid-cols-5">
+            <Link href="/admin/rewards?status=PENDING" className="block">
+              <Stat
+                label="Pending"
+                value={formatCurrency(stats.pendingRewardsAmount)}
+              />
+            </Link>
+            <Link href="/admin/rewards?status=APPROVED" className="block">
+              <Stat
+                label="Approved"
+                value={formatCurrency(stats.approvedRewardsAmount)}
+              />
+            </Link>
+            <Link href="/admin/rewards?status=PAID" className="block">
+              <Stat
+                label="Paid"
+                value={formatCurrency(stats.paidRewardsAmount)}
+              />
+            </Link>
+            <Link href="/admin/rewards?status=REJECTED" className="block">
+              <Stat
+                label="Rejected"
+                value={formatCurrency(stats.rejectedRewardsAmount)}
+              />
+            </Link>
+            <Link href="/admin/rewards" className="block">
+              <Stat
+                label="Total"
+                value={formatCurrency(stats.totalRewardAmount)}
+              />
+            </Link>
           </div>
         </section>
       </main>

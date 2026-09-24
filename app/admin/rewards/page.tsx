@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RewardStatus } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth/current-user";
 import { getAllRewards } from "@/lib/admin/queries";
 import { AppNav } from "@/components/ui/app-nav";
@@ -9,9 +10,13 @@ import { formatCurrency, formatDate } from "@/lib/utils/format";
 
 export const metadata: Metadata = { title: "Admin · Rewards" };
 
-export default async function AdminRewardsPage() {
+export default async function AdminRewardsPage({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
   const user = await requireAdmin();
-  const rewards = await getAllRewards();
+  const params = await searchParams;
+  const status = Object.values(RewardStatus).includes(params.status as RewardStatus)
+    ? (params.status as RewardStatus)
+    : undefined;
+  const rewards = await getAllRewards(status);
 
   return (
     <>
