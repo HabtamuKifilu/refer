@@ -52,8 +52,8 @@ export default async function DashboardPage() {
 
         <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
           <Link href="/dashboard/clicks">
-  <Stat label="Clicks" value={stats.totalClicks} />
-</Link>
+            <Stat label="Clicks" value={stats.totalClicks} />
+          </Link>
           <Link href="/dashboard/referrals">
             <Stat
               label="Successful referrals"
@@ -66,10 +66,12 @@ export default async function DashboardPage() {
               value={formatCurrency(stats.pendingRewards)}
             />
           </Link>
-          <Stat
-            label="Total earned"
-            value={formatCurrency(stats.totalEarned)}
-          />
+          <Link href="/dashboard/earnings">
+            <Stat
+              label="Total earned"
+              value={formatCurrency(stats.totalEarned)}
+            />
+          </Link>
         </div>
 
         <div className="mt-8 flex items-center justify-between">
