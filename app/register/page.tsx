@@ -5,7 +5,7 @@ import { getCurrentUser } from "@/lib/auth/current-user";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { RegisterForm } from "@/components/auth/register-form";
 
-export const metadata: Metadata = { title: "Create your account" };
+export const metadata: Metadata = { title: "Create your Rewardo account" };
 
 export default async function RegisterPage({
   searchParams,
@@ -18,7 +18,7 @@ export default async function RegisterPage({
   return (
     <AuthShell
       title="Create your account"
-      subtitle="Get your referral link and start earning."
+      subtitle="Join Rewardo, share referrals, and earn rewards."
       footer={
         <>
           Already have an account?{" "}
