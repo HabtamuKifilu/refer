@@ -50,11 +50,11 @@ const envSchema = z.object({
    */
   REFERRAL_ATTRIBUTION_DAYS: z.coerce.number().int().positive().default(30),
 
-  /** Reward granted to the referrer, in whole rupees, when a referral qualifies. */
+  /** Reward granted to the referrer, in whole USD, when a referral qualifies. */
   REFERRAL_REWARD_AMOUNT: z.coerce.number().int().positive().default(500),
 
-  /** ISO 4217 currency code for rewards. V1 is INR only. */
-  REFERRAL_REWARD_CURRENCY: z.string().length(3).default("INR"),
+  /** ISO 4217 currency code for rewards. V1 uses USD. */
+  REFERRAL_REWARD_CURRENCY: z.string().length(3).default("USD"),
 });
 
 export type Env = z.infer<typeof envSchema>;

@@ -21,7 +21,7 @@ export function AppNav({ user }: { user: SafeUser }) {
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
           <Link href="/dashboard" className="font-semibold tracking-tight">
-            Refer<span className="text-brand">Flow</span>
+            REWAR<span className="text-brand">DO</span>
           </Link>
           <nav className="flex items-center gap-4" aria-label="Main">
             {links.map((link) => (

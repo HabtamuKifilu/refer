@@ -4,11 +4,11 @@
 //   - User          accounts, each with a unique unguessable referral code
 //   - ReferralClick  anonymous click log, powers attribution
 //   - Referral       the referrer -> referred relationship and its lifecycle
-//   - Reward         one ₹500 payout per qualified referral (unique constraint)
+//   - Reward         one $500 payout per qualified referral (unique constraint)
 //   - ReferralEvent  append-only audit trail of everything that happened
 //
 // Enums are native Postgres enums. Money is stored in integer paise-free
-// whole rupees for V1 (amount is in whole INR), avoiding float rounding.
+// whole USD amounts for V1 (amount is stored as a whole-number value), avoiding float rounding.
 
 generator client {
   provider = "prisma-client-js"
@@ -130,8 +130,8 @@ model Reward {
   id         String       @id @default(cuid())
   referralId String       @unique // one reward per referral, enforced by the DB
   userId     String // the referrer who earns it
-  amount     Int // whole rupees, V1 = 500
-  currency   String       @default("INR")
+  amount     Int // whole USD, V1 = 500
+  currency   String       @default("USD")
   status     RewardStatus @default(PENDING)
   reason     String
 

@@ -9,7 +9,7 @@ export type UserStats = {
   totalClicks: number;
   totalReferrals: number;
   successfulReferrals: number; // qualified, completed
-  pendingRewards: number; // amount in rupees
+  pendingRewards: number; // amount in USD
   approvedRewards: number;
   paidRewards: number;
   totalEarned: number; // approved + paid, the money that is or will be theirs

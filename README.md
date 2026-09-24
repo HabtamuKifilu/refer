@@ -3,7 +3,7 @@
 **Connect. Refer. Reward.**
 
 A referral management platform. Members get a unique referral link, share it, and
-earn a ₹500 reward when someone they referred signs up and completes their
+earn a $500 reward when someone they referred signs up and completes their
 profile. Admins review and pay out those rewards.
 
 > Status: **Working demo complete** — the full referral flow runs end to end
@@ -23,7 +23,7 @@ Planned for V1, built phase by phase:
 - Referral lifecycle: `CLICKED → REGISTERED → QUALIFIED → COMPLETED` (or
   `REJECTED`)
 - Profile completion as the qualifying action
-- Idempotent reward creation — exactly one ₹500 reward per referral
+- Idempotent reward creation — exactly one $500 reward per referral
 - Admin review queue: approve, reject, mark paid
 - A full audit trail of every referral event
 
@@ -150,8 +150,8 @@ node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
 | `SESSION_SECRET`            | yes      | —       | Signing secret, minimum 32 characters           |
 | `APP_URL`                   | yes      | —       | Public origin; referral links are built from it |
 | `REFERRAL_ATTRIBUTION_DAYS` | no       | `30`    | How long a click stays credited to the referrer |
-| `REFERRAL_REWARD_AMOUNT`    | no       | `500`   | Reward per qualified referral, in whole rupees  |
-| `REFERRAL_REWARD_CURRENCY`  | no       | `INR`   | ISO 4217 currency code                          |
+| `REFERRAL_REWARD_AMOUNT`    | no       | `500`   | Reward per qualified referral, in whole USD  |
+| `REFERRAL_REWARD_CURRENCY`  | no       | `USD`   | ISO 4217 currency code                          |
 
 `.env` is git-ignored and must never be committed. `.env.example` is the
 committed template and contains no real secrets.

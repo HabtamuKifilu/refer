@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { env } from "@/lib/env";
+import { formatCurrency } from "@/lib/utils/format";
 
 export const metadata: Metadata = {
   title: "Connect. Refer. Reward.",
@@ -18,7 +19,7 @@ const STEPS = [
   },
   {
     title: "Earn your reward",
-    body: `When your referral completes their profile, a ₹${env.REFERRAL_REWARD_AMOUNT} reward is queued for approval.`,
+    body: `When your referral completes their profile, a ${formatCurrency(Number(env.REFERRAL_REWARD_AMOUNT), env.REFERRAL_REWARD_CURRENCY)} reward is queued for approval.`,
   },
 ] as const;
 

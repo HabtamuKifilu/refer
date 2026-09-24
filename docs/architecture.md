@@ -80,7 +80,7 @@ This is the core of the product. One referral moves through these states:
       └─────┬──────┘
             │  referred user completes their profile
             ▼
-      ┌───────────┐   exactly one PENDING ₹500 Reward is created
+      ┌───────────┐   exactly one PENDING $500 Reward is created
       │ QUALIFIED │
       └─────┬─────┘
             │  reward reaches PAID
@@ -132,7 +132,7 @@ true in practice.
 
 Reward creation is triggered by a user action (completing a profile) that can
 easily happen more than once — a double-clicked submit button, a retried
-request, a page refresh. Paying ₹500 twice for one referral is a real financial
+request, a page refresh. Paying $500 twice for one referral is a real financial
 bug, not a cosmetic one.
 
 Two defences, deliberately layered:
