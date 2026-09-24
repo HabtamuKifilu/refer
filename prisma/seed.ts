@@ -26,7 +26,7 @@ function code(): string {
 }
 
 async function main() {
-  console.log("Seeding ReferFlow demo data…");
+  console.log("Seeding Rewardo demo data…");
 
   // Clean slate (child rows first to satisfy FKs).
   await prisma.referralEvent.deleteMany();

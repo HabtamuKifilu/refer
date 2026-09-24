@@ -1,4 +1,4 @@
-// ReferFlow database schema.
+// Rewardo database schema.
 //
 // Design notes live in docs/architecture.md. In short:
 //   - User          accounts, each with a unique unguessable referral code

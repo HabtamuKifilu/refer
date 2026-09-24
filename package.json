@@ -1,5 +1,5 @@
 {
-  "name": "referflow",
+  "name": "rewardo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -62,5 +62,5 @@
     "esbuild@0.28.2": true,
     "unrs-resolver@1.12.2": true
   },
-  "description": "ReferFlow - Refer Friends. Earn Rewards."
+  "description": "Rewardo - Connect. Refer. Reward."
 }

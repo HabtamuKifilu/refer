@@ -1,6 +1,6 @@
-# ReferFlow Architecture
+# Rewardo Architecture
 
-This document explains how ReferFlow is put together and, more importantly, _why_
+This document explains how Rewardo is put together and, more importantly, _why_
 it is put together that way. It grows as each phase lands.
 
 > Current state: **Phase 1**. The layering and configuration described in

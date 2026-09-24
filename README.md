@@ -1,6 +1,6 @@
-# ReferFlow
+# Rewardo
 
-**Refer Friends. Earn Rewards.**
+**Connect. Refer. Reward.**
 
 A referral management platform. Members get a unique referral link, share it, and
 earn a ₹500 reward when someone they referred signs up and completes their

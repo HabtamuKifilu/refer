@@ -14,10 +14,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "ReferFlow",
-    template: "%s · ReferFlow",
+    default: "Rewardo",
+    template: "%s · Rewardo",
   },
-  description: "Refer Friends. Earn Rewards.",
+  description: "Connect. Refer. Reward.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

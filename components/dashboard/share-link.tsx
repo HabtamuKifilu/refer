@@ -19,7 +19,7 @@ export function ShareLink({ url, code }: { url: string; code: string }) {
     }
   }
 
-  const message = `Join me on ReferFlow and earn rewards! Sign up with my link: ${url}`;
+  const message = `Join me on Rewardo — Connect. Refer. Reward! Sign up with my link: ${url}`;
   const whatsappHref = `https://wa.me/?text=${encodeURIComponent(message)}`;
 
   return (
