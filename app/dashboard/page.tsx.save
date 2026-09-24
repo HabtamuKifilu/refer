@@ -51,9 +51,9 @@ export default async function DashboardPage() {
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <Link href="/dashboard/clicks">
+          <Stat <Link href="/dashboard/clicks">
   <Stat label="Clicks" value={stats.totalClicks} />
-</Link>
+</Link>label="Clicks" value={stats.totalClicks} />
           <Stat
             label="Successful referrals"
             value={stats.successfulReferrals}

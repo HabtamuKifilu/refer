@@ -19,3 +19,16 @@ export function formatDate(date: Date | string): string {
     year: "numeric",
   });
 }
+
+export function formatDateTime(date: Date | string): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+
+  return d.toLocaleString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
