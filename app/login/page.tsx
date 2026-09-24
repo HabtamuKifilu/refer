@@ -13,10 +13,10 @@ export default async function LoginPage() {
   return (
     <AuthShell
       title="Welcome back"
-      subtitle="Sign in to your ReferFlow account."
+      subtitle="Sign in to your Rewardo account."
       footer={
         <>
-          New to ReferFlow?{" "}
+          New to Rewardo?{" "}
           <Link href="/register" className="text-brand font-medium">
             Create an account
           </Link>
