@@ -60,10 +60,12 @@ export default async function DashboardPage() {
               value={stats.successfulReferrals}
             />
           </Link>
-          <Stat
-            label="Pending rewards"
-            value={formatCurrency(stats.pendingRewards)}
-          />
+          <Link href="/dashboard/rewards">
+            <Stat
+              label="Pending rewards"
+              value={formatCurrency(stats.pendingRewards)}
+            />
+          </Link>
           <Stat
             label="Total earned"
             value={formatCurrency(stats.totalEarned)}
