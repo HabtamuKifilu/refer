@@ -54,10 +54,12 @@ export default async function DashboardPage() {
           <Link href="/dashboard/clicks">
   <Stat label="Clicks" value={stats.totalClicks} />
 </Link>
-          <Stat
-            label="Successful referrals"
-            value={stats.successfulReferrals}
-          />
+          <Link href="/dashboard/referrals">
+            <Stat
+              label="Successful referrals"
+              value={stats.successfulReferrals}
+            />
+          </Link>
           <Stat
             label="Pending rewards"
             value={formatCurrency(stats.pendingRewards)}
