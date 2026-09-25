@@ -51,6 +51,106 @@ enum ReferralEventType {
   REWARD_PAID
 }
 
+enum PackageRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  MOBILE_MONEY
+  CASH
+  OTHER
+}
+
+enum PackageStatus {
+  ACTIVE
+  TERMINATED
+  REFUNDED
+  REPLACED
+}
+
+model PackagePlan {
+  id               String           @id @default(cuid())
+  vipLevel         Int              @unique
+  packageAmountBv  Decimal          @db.Decimal(18, 3)
+  dailyProfitShare Decimal          @db.Decimal(18, 3)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  packageRequests  PackageRequest[]
+  packages         UserPackage[]
+
+  @@index([vipLevel])
+}
+
+model PackageRequest {
+  id            String               @id @default(cuid())
+  userId        String
+  packagePlanId String
+  status        PackageRequestStatus @default(PENDING)
+
+  requestedVipLevel Int
+  amountPayableBv   Decimal @db.Decimal(18, 3)
+  upgradeCreditBv   Decimal @default(0) @db.Decimal(18, 3)
+  amountPaidBv      Decimal @db.Decimal(18, 3)
+
+  paymentReference       String
+  paymentDate            DateTime
+  paymentMethod          PaymentMethod
+  paymentReceiptUrl      String
+  paymentReceiptName     String?
+  paymentReceiptMimeType String?
+  paymentReceiptSize     Int?
+  paymentNote            String?
+
+  requestedAt      DateTime  @default(now())
+  reviewedAt       DateTime?
+  reviewedByUserId String?
+  rejectionReason  String?
+  cancelledAt      DateTime?
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  package UserPackage?
+
+  packagePlan PackagePlan @relation(fields: [packagePlanId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([requestedVipLevel])
+  @@index([requestedAt])
+}
+
+model UserPackage {
+  id               String @id @default(cuid())
+  userId           String
+  packagePlanId    String
+  packageRequestId String @unique
+
+  vipLevel           Int
+  packageAmountBv    Decimal       @db.Decimal(18, 3)
+  dailyProfitShareBv Decimal       @db.Decimal(18, 3)
+  status             PackageStatus @default(ACTIVE)
+
+  activatedAt  DateTime
+  terminatedAt DateTime?
+  replacedAt   DateTime?
+  refundedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  packagePlan    PackagePlan    @relation(fields: [packagePlanId], references: [id])
+  packageRequest PackageRequest @relation(fields: [packageRequestId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([vipLevel])
+  @@index([activatedAt])
+}
+
 model User {
   id           String   @id @default(cuid())
   name         String
@@ -61,17 +161,22 @@ model User {
 
   // Profile fields. The qualifying action is "complete your profile", which
   // means providing a phone number (name is required at registration).
-  phone          String?
+  phone           String?
   profileComplete Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Referrals where this user is the one doing the referring.
-  referralsMade     Referral[] @relation("Referrer")
+  referralsMade    Referral[] @relation("Referrer")
   // The single referral where this user is the one who was referred. A user
   // can only ever be referred once, enforced by @unique on referredUserId.
-  referralReceived  Referral?  @relation("ReferredUser")
+  referralReceived Referral?  @relation("ReferredUser")
+
+  packageRequests PackageRequest[]
+  packages        UserPackage[]
+
+  vipLevel Int @default(0)
 
   rewards Reward[]
   clicks  ReferralClick[] @relation("ClickReferrer")
